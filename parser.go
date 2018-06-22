@@ -38,25 +38,19 @@ func (p *Parser) Parse() (err error) {
 		if err != nil {
 			panic(err)
 		}
-		switch token.(type) {
+		switch t := token.(type) {
 		case xml.StartElement:
-			s := token.(xml.StartElement)
-			p.handler.StartElement(s)
+			p.handler.StartElement(&t)
 		case xml.EndElement:
-			e := token.(xml.EndElement)
-			p.handler.EndElement(e)
+			p.handler.EndElement(&t)
 		case xml.CharData:
-			c := token.(xml.CharData)
-			p.handler.CharData(c)
+			p.handler.CharData(&t)
 		case xml.Comment:
-			com := token.(xml.Comment)
-			p.handler.Comment(com)
+			p.handler.Comment(&t)
 		case xml.ProcInst:
-			pro := token.(xml.ProcInst)
-			p.handler.ProcInst(pro)
+			p.handler.ProcInst(&t)
 		case xml.Directive:
-			dir := token.(xml.Directive)
-			p.handler.Directive(dir)
+			p.handler.Directive(&t)
 		default:
 			panic("unknown xml token.")
 		}
